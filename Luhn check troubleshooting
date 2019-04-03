@@ -1,0 +1,81 @@
+#This program utilizes a Luhn check to tell whether or not
+#a number is a valid credit card or not.
+
+#function isvalid() uses a boolean to check the validity of user inputted credit card as a string.
+def isvalid(Credit:str):
+    #set BOOLIN to False
+    credit_length = False
+    credit_start = False
+    luhn = False
+    
+    if len(Credit) >= 13 and len(Credit) <= 16:
+        credit_length = True
+        
+    if Credit[0] == '4' or Credit[0] == '5' or Credit[0] == '6':
+        credit_start = True
+    elif Credit[0] == '3' and credit[1] == '7':
+        credit_start = True
+        
+    luhn = getDigit(Credit)
+    
+    if luhn == 0:
+        luhn = True
+    
+    if credit_length == True and credit_start == True and luhn == True:
+        isvalid = True
+    else: 
+        isvalid = False
+        
+    return isvalid #returns boolean to main function
+    
+    
+def getDigit(Credit:str):
+
+    Credit_no_Even = Credit[-1::-2]
+    Credit_no_Odd = Credit[-2::-2]
+    
+    for Credit_no_Even in Credit[-1::-2]:
+        countEven = Sum_evenx2(Credit_no_Even)
+        
+    for Credit_no_Odd in Credit[-2::-2]:
+        countOdd = sumOdd(Credit_no_Odd)
+
+    luhn = (countEven + countOdd) % 10
+    return luhn    
+
+
+def Sum_evenx2(Credit_no_Even:str):
+
+    countEven = 0
+    for evenDigit in Credit_no_Even[0::]:
+        WsumEven = int(evenDigit) * 2
+        if WsumEven >= 10:
+            W10Sumeven = (WsumEven % 10) + (WsumEven // 10)
+            countEven += W10Sumeven
+        else:
+            countEven += WsumEven
+        print('counteven', countEven)
+        return countEven
+
+
+def sumOdd(Credit_no_Odd:str):
+
+    countOdd = 0
+    for oddDigit in str(Credit_no_Odd)[0::]:
+        SumOdd = int(oddDigit)
+        countOdd += SumOdd
+        print('countodd', countOdd) #included print function to 
+        return countOdd
+        
+        
+def main():
+    print ('This program will check if a string of numbers matches a valid credit card.')
+    Credit = input(str("Please enter numbers to check for validity: "))
+    
+    #call getDigit() function to run user input in program
+    iscard = isvalid(Credit)
+    if iscard == True:
+        print('\n', Credit, "is a valid credit card number.")
+    else:
+        print('\n', Credit, "is not a valid credit card number.")
+main()
